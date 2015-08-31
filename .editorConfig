@@ -1,0 +1,32 @@
+# Estilo de identação para todos os arquivos
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+# arquivos HTML
+[**.html]
+indent_style = tab
+indent_size = 2
+
+[**.eco]
+indent_style = tab
+indent_size = 2
+
+# arquivos CSS dentro do diretório css
+[**.css]
+indent_style = tab
+indent_size = 2
+
+[**.less]
+indent_style = tab
+indent_size = 2
+
+# arquivos JS dentro do diretório js
+[**.js]
+indent_style = space
+indent_size = 2
+
+[**.coffee]
+indent_style = space
+indent_size = 2

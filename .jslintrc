@@ -1,0 +1,21 @@
+{
+  "predef":   [
+      "exports",
+      "global",
+      "process",
+      "require",
+      "__filename",
+      "__dirname",
+      "module",
+      "app"
+  ],
+  "browser" : false,
+  "devel" : false,
+  "rhino" : false,
+  "es5" : false,
+  "widget": false,
+  "windows" : false,
+  "onvar" : true,
+  "indent": 2,
+  "plusplus": true
+}
