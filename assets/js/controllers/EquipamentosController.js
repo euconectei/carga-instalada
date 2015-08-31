@@ -3,31 +3,31 @@ app.controller('EquipamentosController', function ($scope) { //, $http, $resourc
 
   $scope.label = {
     "equipamento": "Equipamento",
-    "nome": "Nome",
-    "potUnit": "Potência Unitária",
-    "qtde": "Quantidade",
-    "potTotal": "Potência Total",
-    "hdu": "Horas de Utilização Diária",
-    "Ponta": "Ponta",
-    "FPonta": "F Ponta",
-    "Total": "Total",
-    "cd": "Carga Diária"
+    "nome"       : "Nome",
+    "potUnit"    : "Potência Unitária",
+    "qtde"       : "Quantidade",
+    "potTotal"   : "Potência Total",
+    "hdu"        : "Horas de Utilização Diária",
+    "Ponta"      : "Ponta",
+    "FPonta"     : "F Ponta",
+    "Total"      : "Total",
+    "cd"         : "Carga Diária"
   };
 
   $scope.equipamentos = [];
 
   function Equipamento() {
-    this.id = "";
-    this.nome = "";
-    this.potUnit = "";
-    this.qtde = "";
-    this.potTotal = "";
-    this.hduPonta = "";
+    this.id        = "";
+    this.nome      = "";
+    this.potUnit   = "";
+    this.qtde      = "";
+    this.potTotal  = "";
+    this.hduPonta  = "";
     this.hduFPonta = "";
-    this.hduTotal = "";
-    this.cdPonta = "";
-    this.cdFPonta = "";
-    this.cdTotal = "";
+    this.hduTotal  = "";
+    this.cdPonta   = "";
+    this.cdFPonta  = "";
+    this.cdTotal   = "";
   }
 
   function calculaTotal(arr, campo) {
@@ -43,33 +43,33 @@ app.controller('EquipamentosController', function ($scope) { //, $http, $resourc
 
     var equip = new Equipamento(),
       id = function () {
-        var eqp = $scope.equipamentos,
+        var eqp   = $scope.equipamentos,
           eqpSize = $scope.equipamentos.length;
 
         return eqpSize;
       },
-      nome = $scope.inputNome,
-      potUnit = $scope.inputPotUnit,
-      qtde = $scope.inputQtde,
-      potTotal = $scope.inputPotTotal,
-      hduPonta = $scope.inputHduPonta,
+      nome      = $scope.inputNome,
+      potUnit   = $scope.inputPotUnit,
+      qtde      = $scope.inputQtde,
+      potTotal  = $scope.inputPotTotal,
+      hduPonta  = $scope.inputHduPonta,
       hduFPonta = $scope.inputHduFPonta,
-      hduTotal = $scope.inputHduTotal,
-      cdPonta = $scope.inputCdPonta,
-      cdFPonta = $scope.inputCdFPonta,
-      cdTotal = $scope.inputCdTotal;
+      hduTotal  = $scope.inputHduTotal,
+      cdPonta   = $scope.inputCdPonta,
+      cdFPonta  = $scope.inputCdFPonta,
+      cdTotal   = $scope.inputCdTotal;
 
-    equip.id = id();
-    equip.nome = nome;
-    equip.potUnit = potUnit;
-    equip.qtde = qtde;
-    equip.potTotal = potTotal;
-    equip.hduPonta = hduPonta;
+    equip.id        = id();
+    equip.nome      = nome;
+    equip.potUnit   = potUnit;
+    equip.qtde      = qtde;
+    equip.potTotal  = potTotal;
+    equip.hduPonta  = hduPonta;
     equip.hduFPonta = hduFPonta;
-    equip.hduTotal = hduTotal;
-    equip.cdPonta = cdPonta;
-    equip.cdFPonta = cdFPonta;
-    equip.cdTotal = cdTotal;
+    equip.hduTotal  = hduTotal;
+    equip.cdPonta   = cdPonta;
+    equip.cdFPonta  = cdFPonta;
+    equip.cdTotal   = cdTotal;
 
     $scope.equipamentos.push(equip);
 
