@@ -14,6 +14,7 @@
     "angular-resource": "~1.4.5",
     "angular-sanitize": "~1.4.5",
     "bootstrap": "~3.3.5",
+    "jspdf": "bower-jspdf#~1.2.0",
     "less": "~2.5.1"
   },
   "overrides": {

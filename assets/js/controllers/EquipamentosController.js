@@ -9,7 +9,7 @@ app.controller('EquipamentosController', function ($scope) { //, $http, $resourc
     "potTotal"   : "Potência Total",
     "hdu"        : "Horas de Utilização Diária",
     "Ponta"      : "Ponta",
-    "FPonta"     : "F Ponta",
+    "FPonta"     : "Fora de Ponta",
     "Total"      : "Total",
     "cd"         : "Carga Diária"
   };
@@ -46,18 +46,24 @@ app.controller('EquipamentosController', function ($scope) { //, $http, $resourc
         var eqp   = $scope.equipamentos,
           eqpSize = $scope.equipamentos.length;
 
+        if (eqpSize === 0) {
+          eqpSize = 1;
+        } else {
+          eqpSize = eqp[eqp.length - 1].id + 1;
+        }
+
         return eqpSize;
       },
       nome      = $scope.inputNome,
       potUnit   = $scope.inputPotUnit,
       qtde      = $scope.inputQtde,
-      potTotal  = $scope.inputPotTotal,
+      potTotal  = potUnit * qtde,
       hduPonta  = $scope.inputHduPonta,
       hduFPonta = $scope.inputHduFPonta,
-      hduTotal  = $scope.inputHduTotal,
-      cdPonta   = $scope.inputCdPonta,
-      cdFPonta  = $scope.inputCdFPonta,
-      cdTotal   = $scope.inputCdTotal;
+      hduTotal  = hduPonta * hduFPonta,
+      cdPonta   = potUnit * hduPonta,
+      cdFPonta  = potUnit * hduFPonta,
+      cdTotal   = cdPonta + cdFPonta;
 
     equip.id        = id();
     equip.nome      = nome;
@@ -73,10 +79,18 @@ app.controller('EquipamentosController', function ($scope) { //, $http, $resourc
 
     $scope.equipamentos.push(equip);
 
-    $scope.potUnitTotal = calculaTotal($scope.equipamentos, 'potUnit');
+    $scope.potUnitTotal = calculaTotal($scope.equipamentos, 'potTotal');
+    $scope.hduTotal     = calculaTotal($scope.equipamentos, 'hduTotal');
+    $scope.cdPonta      = calculaTotal($scope.equipamentos, 'cdPonta');
+    $scope.cdFPonta      = calculaTotal($scope.equipamentos, 'cdFPonta');
+    $scope.cdTotal      = calculaTotal($scope.equipamentos, 'cdTotal');
 
   };
 
+  $scope.apagaEquipamento = function (index) {
 
+    $scope.equipamentos.splice(index, 1);
+
+  };
 
 });

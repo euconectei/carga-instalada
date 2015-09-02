@@ -13,6 +13,7 @@
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/jspdf/dist/jspdf.min.js"></script>
     <script src="bower_components/less/dist/less.js"></script>
     <!-- endbower -->
     <script src="assets/js/app.js"></script>
@@ -31,7 +32,7 @@
     <main class="container">
       <div class="row">
         <div class="col-lg-12">
-          <form action="#" class="form-horizontal">
+          <form action="#" class="form-horizontal hidden-print" name="form" ng-submit="adicionaEquipamento()">
             <div class="row">
               <fieldset class="col-lg-4">
                 <div class="panel panel-default">
@@ -40,56 +41,68 @@
                   </div>
                   <div class="panel-body">
                     <label for="inputNome">{{ label.nome }}</label>
-                    <input type="text" class="form-control" id="inputNome" ng-model="inputNome">
-                    <label for="">{{ label.potUnit }}</label>
-                    <input type="number" class="form-control" id="inputPotUnit" ng-model="inputPotUnit">
+                    <input type="text" class="form-control" id="inputNome" ng-model="inputNome" required>
+                    <label for="inputPotUnit">{{ label.potUnit }}</label>
+                    <input type="number" class="form-control" id="inputPotUnit" ng-model="inputPotUnit" min="1" required>
+                    <label for="inputQtde">{{ label.qtde }}</label>
+                    <input type="number" class="form-control" id="inputQtde" ng-model="inputQtde" min="1" required>
                   </div>
                 </div>
               </fieldset>
               <fieldset class="col-lg-4">
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                    <h3>Utilização Diária (<abbr title="Horas">h</abbr>)</h3>
+                    <h3>{{ label.hdu }} (<abbr title="Horas">h</abbr>)</h3>
                   </div>
                   <div class="panel-body">
-                    <input type="text" class="form-control" id="inputNome" placeholder="Nome do Equipamento" ng-model="inputNome">
+                    <label for="inputHduPonta">{{ label.Ponta }}</label>
+                    <input type="number" class="form-control" id="inputHduPonta" ng-model="inputHduPonta" min="1" required>
+                    <label for="inputHduFPonta">{{ label.FPonta }}</label>
+                    <input type="number" class="form-control" id="inputHduFPonta" ng-model="inputHduFPonta" min="1" required>
                   </div>
                 </div>
               </fieldset>
-              <fieldset class="col-lg-4">
+              <!-- <fieldset class="col-lg-4">
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                    <h3>Utilização Diária (<abbr title="Horas">h</abbr>)</h3>
+                    <h3>{{ label.cd }} (<abbr title="Horas">h</abbr>)</h3>
                   </div>
                   <div class="panel-body">
-                    <input type="text" class="form-control" id="inputNome" placeholder="Nome do Equipamento" ng-model="inputNome">
+                    <label for="inputCdPonta">{{ label.Ponta }}</label>
+                    <input type="number" class="form-control" id="inputCdPonta" ng-model="inputCdPonta" min="1" required>
+                    <label for="inputCdFPonta">{{ label.FPonta }}</label>
+                    <input type="number" class="form-control" id="inputCdFPonta" ng-model="inputCdFPonta" min="1" required>
                   </div>
                 </div>
-              </fieldset>
+              </fieldset> -->
             </div>
-            <input type="button" name="name" value="Adicionar Equipamento" class="btn" ng-click="adicionaEquipamento()">
-            <input type="button" name="name" value="Enviar por email" class="btn" ng-click="enviaEmail()">
+            <button type="submit" class="btn btn-primary">
+              <span class="glyphicon glyphicon-plus-sign" title="Apagar item" aria-hidden="true"></span> Adicionar equipamento
+            </button>
+            <button type="button" name="salvaPDF" id="salvaPDF" class="btn" onClick="javascript:window.print();">
+              <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
+            </button>
           </form>
         </div>
       </div>
+      <br>
       <div class="row">
-        <div class="col-lg-12">
-          <table class="table table-striped table-hover">
+        <div class="col-lg-12" id="elementos">
+          <table class="table table-striped table-hover" ng-show="equipamentos.length">
             <colgroup span="1" style="border: 1px solid #eee;"></colgroup>
+            <colgroup span="4" style="border: 1px solid #eee;"></colgroup>
             <colgroup span="3" style="border: 1px solid #eee;"></colgroup>
             <colgroup span="3" style="border: 1px solid #eee;"></colgroup>
-            <colgroup span="3" style="border: 1px solid #eee;"></colgroup>
-            <colgroup span="1" style="border: 1px solid #eee;"></colgroup>
             <thead>
               <tr>
-                <th></th>
-                <th colspan="3">{{ label.equipamento }}</th>
+                <th class="hidden-print"></th>
+                <th colspan="4">{{ label.equipamento }}</th>
                 <th colspan="3">{{ label.hdu }}</th>
                 <th colspan="3">{{ label.cd }}</th>
-                <th></th>
               </tr>
               <tr>
-                <th></th>
+                <th class="hidden-print"></th>
+                <!-- <th></th> -->
                 <th>{{ label.nome }}</th>
                 <th>{{ label.potUnit }}</th>
                 <th>{{ label.qtde }}</th>
@@ -104,26 +117,32 @@
             </thead>
             <tbody>
               <tr ng-repeat="eqp in equipamentos">
-                <td>{{ eqp.id }}</td>
-                <td>{{ eqp.nome }}</td>
-                <td>{{ eqp.potUnit }}</td>
-                <td>{{ eqp.qtde }}</td>
-                <td>{{ eqp.potTotal }}</td>
-                <td>{{ eqp.hduPonta }}</td>
-                <td>{{ eqp.hduFPonta }}</td>
-                <td>{{ eqp.hduTotal }}</td>
-                <td>{{ eqp.cdPonta }}</td>
-                <td>{{ eqp.cdFPonta }}</td>
-                <td>{{ eqp.cdTotal }}</td>
+                <td class="text-center hidden-print">
+                  <button class="btn btn-xs btn-danger" ng-click="apagaEquipamento($index)">
+                    <span class="glyphicon glyphicon-trash" title="Apagar item" aria-hidden="true"></span>
+                  </button>
+                </td>
+                <!-- <td>{{ eqp.id }}</td> -->
+                <td class="text-left">{{ eqp.nome }}</td>
+                <td class="text-center">{{ eqp.potUnit }}</td>
+                <td class="text-center">{{ eqp.qtde }}</td>
+                <td class="text-center">{{ eqp.potTotal }}</td>
+                <td class="text-center">{{ eqp.hduPonta }}</td>
+                <td class="text-center">{{ eqp.hduFPonta }}</td>
+                <td class="text-center">{{ eqp.hduTotal }}</td>
+                <td class="text-center">{{ eqp.cdPonta }}</td>
+                <td class="text-center">{{ eqp.cdFPonta }}</td>
+                <td class="text-center">{{ eqp.cdTotal }}</td>
               </tr>
               <tr>
-                <th></th>
+                <th class="hidden-print"></th>
                 <th colspan="3"></th>
                 <th>{{ potUnitTotal }}</th>
                 <th colspan="2"></th>
-                <th>Total</th>
-                <th colspan="2"></th>
-                <th>Total</th>
+                <th>{{ hduTotal}}</th>
+                <th>{{ cdPonta }}</th>
+                <th>{{ cdFPonta }}</th>
+                <th>{{ cdTotal }}</th>
               </tr>
             </tbody>
           </table>
